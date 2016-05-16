@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">PopularMovies</string>
+    <string name="title">Title</string>
+    <string name="release_date">Release Date</string>
+    <string name="rating">Rating</string>
+    <string name="mark_as_favourite">Mark As Favourite</string>
+    <string name="overview">Overview</string>
+    <string name="movieId">movieId</string>
+    <string name="movieTitle">movieTitle</string>
+    <string name="movieReleaseDate">movieReleaseDate</string>
+    <string name="moviePosterPath">moviePosterUrl</string>
+    <string name="movieRating">movieRating</string>
+    <string name="moviePlot">moviePlot</string>
+    <string name="MovieDetailPageHeading">MovieDetail</string>
+
+    <string name="favouritesList">favouritesList</string>
+    <string name="addedToFavourites">Movie added to Favourites</string>
+    <string name="NoFavourites">No Movie marked as Favourite</string>
+    <string name="alreadyInFavourites">Movie already exists in Favourites</string>
+
+    <string name="SettingsMenuTitle">Settings</string>
+    <string name="pref_sortCategoryHeader">Sort Results</string>
+    <string name="pref_sortTypeDialogHeader">Sort By</string>
+    <string name="sortingPreference">pref_sort</string>
+    <string name="DefaultPreference">popularity</string>
+
+    <string name="exceptionLogHeader">==EXCEPTION==</string>
+
+    <string name="discoverMovieUrl"><![CDATA[https://api.themoviedb.org/3/discover/movie?sort_by=%s.desc&api_key=<<<API_KEY>>>]]></string>
+    <string name="movieTrailerUrl"><![CDATA[https://api.themoviedb.org/3/movie/%s/videos?api_key=<<<API_KEY>>>]]></string>
+    <string name="movieReviewUrl"><![CDATA[https://api.themoviedb.org/3/movie/%s/reviews?api_key=<<<API_KEY>>>]]></string>
+    <string name="posterImageUrl">http://image.tmdb.org/t/p/w342%s</string>
+</resources>
