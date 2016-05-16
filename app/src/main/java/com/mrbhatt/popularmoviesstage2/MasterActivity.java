@@ -11,6 +11,7 @@ import android.view.MenuItem;
  * Created by anupambhatt on 04/05/16.
  */
 public class MasterActivity extends Activity implements FragmentManager.OnBackStackChangedListener {
+    private static final String MASTER_FRAGMENT_ID = "MasterFragment1";
 
     @Override
     public void onCreate(Bundle savedInstanceState ) {
@@ -26,7 +27,7 @@ public class MasterActivity extends Activity implements FragmentManager.OnBackSt
         shouldDisplayHomeUp();
 
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.masterFrame, new MasterFragment(), "MasterFragment1");
+        fragmentTransaction.add(R.id.masterFrame, new MasterFragment(), MASTER_FRAGMENT_ID);
         fragmentTransaction.commit();
     }
 

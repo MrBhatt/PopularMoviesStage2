@@ -26,7 +26,7 @@
 
     <string name="exceptionLogHeader">==EXCEPTION==</string>
 
-    <string name="discoverMovieUrl"><![CDATA[https://api.themoviedb.org/3/discover/movie?sort_by=%s.desc&api_key=<<<API_KEY>>>]]></string>
+    <string name="popularMovieUrl"><![CDATA[https://api.themoviedb.org/3/movie/popular?sort_by=%s.desc&api_key=<<<API_KEY>>>]]></string>
     <string name="movieTrailerUrl"><![CDATA[https://api.themoviedb.org/3/movie/%s/videos?api_key=<<<API_KEY>>>]]></string>
     <string name="movieReviewUrl"><![CDATA[https://api.themoviedb.org/3/movie/%s/reviews?api_key=<<<API_KEY>>>]]></string>
     <string name="posterImageUrl">http://image.tmdb.org/t/p/w342%s</string>

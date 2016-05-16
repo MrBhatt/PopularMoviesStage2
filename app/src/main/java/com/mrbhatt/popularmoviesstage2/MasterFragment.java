@@ -28,17 +28,20 @@ import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by anupambhatt on 04/05/16.
  */
 public class MasterFragment extends Fragment {
+
+    @BindView(R.id.gridview) GridView gridview;
 
     private String currentSortPreference = null;
     private PopularMovieResult[] results = null;
@@ -51,6 +54,7 @@ public class MasterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.master_fragment, container, false);
+        ButterKnife.bind(this, rootView);
 
         ActionBar actionBar = getActivity().getActionBar();
 
@@ -61,7 +65,6 @@ public class MasterFragment extends Fragment {
 
         imageAdapter = new ImageAdapter(getActivity().getApplicationContext(), getPosters(currentSortPreference));
 
-        GridView gridview = (GridView) rootView.findViewById(R.id.gridview);
         gridview.setAdapter(imageAdapter);
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -99,7 +102,8 @@ public class MasterFragment extends Fragment {
     private List<String> getPosters(String sortPref) {
         try {
             if (!currentSortPreference.equalsIgnoreCase("favourites")) {
-                PopularMovies popularMovies = new GetPopularMoviesTask().execute(getResources().getString(R.string.discoverMovieUrl),
+                GetPopularMoviesTask getPopularMoviesTask = new GetPopularMoviesTask(getActivity().getApplicationContext());
+                PopularMovies popularMovies = getPopularMoviesTask.execute(getResources().getString(R.string.popularMovieUrl),
                         sortPref).get();
                 results = popularMovies.getPopularMovieResults();
             } else {

@@ -37,25 +37,36 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by anupambhatt on 04/05/16.
  */
 public class DetailFragment extends Fragment {
 
+    @BindView(R.id.movieTitle) TextView titleTextView;
+    @BindView(R.id.movieReleaseDate) TextView releaseDateTextView;
+    @BindView(R.id.moviePoster) ImageView posterImageView;
+    @BindView(R.id.movieRating) TextView movieRatingTextView;
+    @BindView(R.id.moviePlot) TextView moviePlotTextView;
+    @BindView(R.id.trailersListView) RecyclerView trailersListView;
+    @BindView(R.id.reviewsListView) RecyclerView reviewsListView;
+    @BindView(R.id.addToFavs) Button button;
+    
     private String movieId = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.detail_fragment, container, false);
+        ButterKnife.bind(this, rootView);
         getActivity().getActionBar().setTitle(getString(R.string.MovieDetailPageHeading));
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 
         final Bundle arguments = this.getArguments();
 
         setViewValues(rootView, arguments);
-
-        Button button = (Button) rootView.findViewById(R.id.addToFavs);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,17 +78,7 @@ public class DetailFragment extends Fragment {
     }
 
     private void setViewValues(View rootView, Bundle arguments) {
-
         movieId = arguments.getString(getString(R.string.movieId));
-
-        // Get all available view elements
-        TextView titleTextView = (TextView) rootView.findViewById(R.id.movieTitle);
-        TextView releaseDateTextView = (TextView) rootView.findViewById(R.id.movieReleaseDate);
-        ImageView posterImageView = (ImageView) rootView.findViewById(R.id.moviePoster);
-        TextView movieRatingTextView = (TextView) rootView.findViewById(R.id.movieRating);
-        TextView moviePlotTextView = (TextView) rootView.findViewById(R.id.moviePlot);
-        final RecyclerView trailersListView = (RecyclerView) rootView.findViewById(R.id.trailersListView);
-        final RecyclerView reviewsListView = (RecyclerView) rootView.findViewById(R.id.reviewsListView);
 
         if (arguments!= null) {
             // Set all the values retrieved above in to the views
