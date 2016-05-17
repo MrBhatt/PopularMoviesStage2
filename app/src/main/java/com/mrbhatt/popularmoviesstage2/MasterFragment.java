@@ -24,6 +24,7 @@ import com.mrbhatt.popularmoviesstage2.dto.popularMovies.PopularMovies;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -111,6 +112,8 @@ public class MasterFragment extends Fragment {
                     break;
             }
 
+            Toast.makeText(getActivity().getApplicationContext(), "Fetching data", Toast.LENGTH_SHORT);
+
             if (!isFavourite) {
                 /* Popular or Highest rated mode selected. Get from TMDB API */
                 GetPopularMoviesTask getPopularMoviesTask = new GetPopularMoviesTask(getActivity().getApplicationContext());
@@ -140,6 +143,12 @@ public class MasterFragment extends Fragment {
         }
 
         List<String> urls = new ArrayList<>();
+
+        // There could be situations where we could not get results from the APIs and
+        // hence results will be null. Do not crash.
+        if (results == null) {
+            return Collections.EMPTY_LIST;
+        }
 
         for (PopularMovieResult result : results) {
             String posterPath = result.getPoster_path();

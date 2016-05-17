@@ -37,7 +37,7 @@ public class GetPopularMoviesTask extends AsyncTask<String, Void, PopularMovies>
     protected void onPostExecute(PopularMovies popularMovies) {
         super.onPostExecute(popularMovies);
         if (exceptionOccurred) {
-            Toast.makeText(mContext, R.string.exceptionMessagePopular, Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, R.string.exceptionMessagePopular, Toast.LENGTH_LONG).show();
         }
     }
 }
