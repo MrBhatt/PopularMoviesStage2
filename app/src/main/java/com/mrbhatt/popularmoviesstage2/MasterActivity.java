@@ -42,10 +42,17 @@ public class MasterActivity extends Activity implements FragmentManager.OnBackSt
         fragmentTransaction.commit();
     }
 
+    public void onResume()
+    {
+        super.onResume();
+        shouldDisplayHomeUp();
+    }
+
     @Override
     public boolean onNavigateUp() {
-        //This method is called when the up button is pressed. Just the pop back stack.
+        //This method is called when the up button is pressed. Just pop back stack.
         getFragmentManager().popBackStack();
+        shouldDisplayHomeUp();
         return true;
     }
 
