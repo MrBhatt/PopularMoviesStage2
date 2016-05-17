@@ -3,9 +3,13 @@ package com.mrbhatt.popularmoviesstage2;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 /**
  * Created by anupambhatt on 04/05/16.
@@ -18,6 +22,12 @@ public class MasterActivity extends Activity implements FragmentManager.OnBackSt
     public void onCreate(Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.master_activity);
+
+        if (!isNetworkAvailable()) {
+            displayErorToaster();
+            return;
+        }
+
         if (savedInstanceState != null) {
             return;
         }
@@ -71,5 +81,16 @@ public class MasterActivity extends Activity implements FragmentManager.OnBackSt
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager cm = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
+    }
+
+    private void displayErorToaster() {
+        Toast.makeText(getApplicationContext(), "This application requires internet connection!", Toast.LENGTH_LONG).show();
     }
 }

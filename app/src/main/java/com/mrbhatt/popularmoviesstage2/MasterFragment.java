@@ -111,8 +111,6 @@ public class MasterFragment extends Fragment {
                     break;
             }
 
-            Toast.makeText(getActivity().getApplicationContext(), "Fetching data", Toast.LENGTH_SHORT);
-
             if (!isFavourite) {
                 /* Popular or Highest rated mode selected. Get from TMDB API */
                 GetPopularMoviesTask getPopularMoviesTask = new GetPopularMoviesTask(getActivity().getApplicationContext());
