@@ -64,7 +64,7 @@ public class MasterActivity extends Activity implements FragmentManager.OnBackSt
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             SettingsFragment settingsFragment = new SettingsFragment();
             fragmentTransaction.replace(R.id.masterFrame , settingsFragment, SETTINGS_FRAGMENT_TAG);
-            //fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
 
             return true;
