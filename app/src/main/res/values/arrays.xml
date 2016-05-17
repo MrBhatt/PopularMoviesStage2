@@ -7,7 +7,7 @@
     </string-array>
     <string-array name="pref_sortType_values">
         <item>popularity</item>
-        <item>vote_average</item>
+        <item>top_rated</item>
         <item>favourites</item>
     </string-array>
 </resources>

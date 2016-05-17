@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,20 +17,16 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mrbhatt.popularmoviesstage2.async.GetPopularMoviesTask;
 import com.mrbhatt.popularmoviesstage2.dto.popularMovies.PopularMovieResult;
 import com.mrbhatt.popularmoviesstage2.dto.popularMovies.PopularMovies;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,14 +36,12 @@ import butterknife.ButterKnife;
  */
 public class MasterFragment extends Fragment {
 
-    @BindView(R.id.gridview) GridView gridview;
+    @BindView(R.id.gridview)
+    GridView gridview;
 
     private String currentSortPreference = null;
     private PopularMovieResult[] results = null;
-    ImageAdapter imageAdapter = null;
-
-    public void MasterFragment() {
-    }
+    private ImageAdapter imageAdapter = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -58,13 +51,12 @@ public class MasterFragment extends Fragment {
 
         ActionBar actionBar = getActivity().getActionBar();
 
-        actionBar.setTitle(getString(R.string.app_name));
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        if (actionBar != null) {
+            actionBar.setTitle(getString(R.string.app_name));
+            actionBar.setDisplayHomeAsUpEnabled(false);
+        }
 
-        currentSortPreference = getSortPreference();
-
-        imageAdapter = new ImageAdapter(getActivity().getApplicationContext(), getPosters(currentSortPreference));
-
+        imageAdapter = new ImageAdapter(getActivity().getApplicationContext(), getPosters());
         gridview.setAdapter(imageAdapter);
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -99,19 +91,38 @@ public class MasterFragment extends Fragment {
         return rootView;
     }
 
-    private List<String> getPosters(String sortPref) {
+    private List<String> getPosters() {
         try {
-            if (!currentSortPreference.equalsIgnoreCase("favourites")) {
+            String url = null;
+            boolean isFavourite = false;
+            currentSortPreference = getSortPreference();
+            /* Select based on preference */
+            switch (currentSortPreference.toLowerCase()) {
+                case "popularity":
+                    url = getString(R.string.popularMovieUrl);
+                    break;
+                case "top_rated":
+                    url = getString(R.string.topRatedMovieUrl);
+                    break;
+                case "favourites":
+                    isFavourite = true;
+                    break;
+                default:
+                    break;
+            }
+
+            if (!isFavourite) {
+                /* Popular or Highest rated mode selected. Get from TMDB API */
                 GetPopularMoviesTask getPopularMoviesTask = new GetPopularMoviesTask(getActivity().getApplicationContext());
-                PopularMovies popularMovies = getPopularMoviesTask.execute(getResources().getString(R.string.popularMovieUrl),
-                        sortPref).get();
+                PopularMovies popularMovies = getPopularMoviesTask.execute(url).get();
                 results = popularMovies.getPopularMovieResults();
             } else {
+                /* Favourite mode selected. Get stored favourites */
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 Set<String> favouritesSet = prefs.getStringSet(getString(R.string.favouritesList), null);
 
                 if (favouritesSet == null) {
-                    Toast.makeText(getActivity().getApplicationContext(), R.string.NoFavourites, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity().getApplicationContext(), R.string.noFavourites, Toast.LENGTH_SHORT).show();
                     return Collections.EMPTY_LIST;
                 }
 
@@ -124,14 +135,7 @@ public class MasterFragment extends Fragment {
                 }
                 results = resultsList.toArray(new PopularMovieResult[resultsList.size()]);
             }
-        } catch (InterruptedException | ExecutionException e) {
-            Log.e(getString(R.string.exceptionLogHeader), e.getMessage());
-            e.printStackTrace();
-        } catch (JsonParseException e) {
-            e.printStackTrace();
-        } catch (JsonMappingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -158,7 +162,7 @@ public class MasterFragment extends Fragment {
 
         String updatedSortPreference = getSortPreference();
         if (!currentSortPreference.equalsIgnoreCase(updatedSortPreference)) {
-            imageAdapter.setUrls(getPosters(updatedSortPreference));
+            imageAdapter.setUrls(getPosters());
             currentSortPreference = updatedSortPreference;
             imageAdapter.notifyDataSetChanged();
         }
@@ -182,7 +186,7 @@ public class MasterFragment extends Fragment {
 
         @Override
         public int getCount() {
-            return 100;
+            return urls.size();
         }
 
         @Override

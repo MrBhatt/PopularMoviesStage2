@@ -11,7 +11,8 @@ import android.view.MenuItem;
  * Created by anupambhatt on 04/05/16.
  */
 public class MasterActivity extends Activity implements FragmentManager.OnBackStackChangedListener {
-    private static final String MASTER_FRAGMENT_ID = "MasterFragment1";
+    private static final String MASTER_FRAGMENT_TAG = "MasterFragment1";
+    private static final String SETTINGS_FRAGMENT_TAG = "SettingsFragment";
 
     @Override
     public void onCreate(Bundle savedInstanceState ) {
@@ -27,7 +28,7 @@ public class MasterActivity extends Activity implements FragmentManager.OnBackSt
         shouldDisplayHomeUp();
 
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.masterFrame, new MasterFragment(), MASTER_FRAGMENT_ID);
+        fragmentTransaction.add(R.id.masterFrame, new MasterFragment(), MASTER_FRAGMENT_TAG);
         fragmentTransaction.commit();
     }
 
@@ -43,8 +44,8 @@ public class MasterActivity extends Activity implements FragmentManager.OnBackSt
         shouldDisplayHomeUp();
     }
 
-    public void shouldDisplayHomeUp(){
-        //Enable Up button only  if there are entries in the back stack
+    private void shouldDisplayHomeUp(){
+        // Enable Up button only  if there are entries in the back stack
         boolean canback = getFragmentManager().getBackStackEntryCount()>0;
         getActionBar().setDisplayHomeAsUpEnabled(canback);
     }
@@ -61,8 +62,9 @@ public class MasterActivity extends Activity implements FragmentManager.OnBackSt
 
         if (id == R.id.preferences) {
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.masterFrame, new SettingsFragment(), "SettingsFragment");
-            fragmentTransaction.addToBackStack(null);
+            SettingsFragment settingsFragment = new SettingsFragment();
+            fragmentTransaction.replace(R.id.masterFrame , settingsFragment, SETTINGS_FRAGMENT_TAG);
+            //fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
 
             return true;

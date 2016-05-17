@@ -139,8 +139,10 @@ public class DetailFragment extends Fragment {
 
     private TrailerResult[] getTrailerResults(Long movieId) {
         try {
-            MovieTrailers movieTrailers = new GetMovieTrailersTask().execute(getResources()
-                    .getString(R.string.movieTrailerUrl), Long.toString(movieId)).get();
+            GetMovieTrailersTask getMovieTrailersTask = new GetMovieTrailersTask(getActivity().getApplicationContext());
+            MovieTrailers movieTrailers = getMovieTrailersTask.execute(getResources()
+                    .getString(R.string.movieTrailerUrl),
+                    Long.toString(movieId)).get();
             return movieTrailers.getResults();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
@@ -151,7 +153,8 @@ public class DetailFragment extends Fragment {
 
     private ReviewResult[] getReviewResults(Long movieId) {
         try {
-            MovieReviews movieReviews = new GetMovieReviewsTask().execute(getResources()
+            GetMovieReviewsTask getMovieReviewsTask = new GetMovieReviewsTask(getActivity().getApplicationContext());
+            MovieReviews movieReviews = getMovieReviewsTask.execute(getResources()
                     .getString(R.string.movieReviewUrl), Long.toString(movieId)).get();
             return movieReviews.getResults();
         } catch (InterruptedException | ExecutionException e) {
